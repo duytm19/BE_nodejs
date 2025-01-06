@@ -5,6 +5,7 @@ require("dotenv").config();
 const database = require("./config/database");
 const systemConfig=require("./config/system")
 const methodOverride = require('method-override')
+const bodyParser = require('body-parser')
 //ROUTER
 const routeAdmin = require("./routes/admin/index.route");
 const route = require("./routes/client/index.route");
@@ -15,6 +16,9 @@ const app = express();
 const port = 3000;
 // override POST to PATCH
 app.use(methodOverride('_method'))
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }))
+
 // configure pug into project
 app.set("views", "./views");
 app.set("view engine", "pug");
