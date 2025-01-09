@@ -54,6 +54,9 @@ module.exports.changeStatus = async (req,res)=>{
 
     await Product.updateOne({_id: id},{status: status})
 
+    req.flash('success','Update status of product successfully!')
+    //req.flash('success', 'Welcome');
+
     res.redirect("back")
 }
 //[PATCH]/admin/products/change-multi
@@ -64,12 +67,15 @@ module.exports.changeMulti = async(req,res)=>{
     switch(type){
         case "active":
             await Product.updateMany({_id: {$in: ids}}, {status: "active"})
+            req.flash('success',`Update status of ${ids.length} products successfully!`)
             break
         case "inactive":
             await Product.updateMany({_id: {$in: ids}}, {status: "inactive"})
+            req.flash('success',`Update status of ${ids.length} products successfully!`)
             break
         case "delete-all":
             await Product.updateMany({_id: {$in: ids}},{deleted:true},{deletedAt: new Date()})
+            req.flash('success',`Delete ${ids.length} products successfully!`)
             break
         case "change-position":
             for(item of ids){
@@ -91,6 +97,7 @@ module.exports.deleteItem = async (req,res)=>{
     //await Product.deleteOne({_id: id}) //Delete in Database
 
     await Product.updateOne({_id:id },{deleted:true},{deletedAt: new Date()})
+    req.flash('success',`Delete a product successfully!`)
 
     res.redirect("back")
 }

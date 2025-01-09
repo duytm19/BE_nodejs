@@ -13,7 +13,7 @@ if(buttonsChangeStatus.length>0){
     
             let statusChange = statusCurrent=="active" ? "inactive":"active"
             
-            const action = path +`/${statusChange}/${id}?_method=DELETE`
+            const action = path +`/${statusChange}/${id}?_method=PATCH`
             formChangeStatus.action=action
             formChangeStatus.submit()
         })
