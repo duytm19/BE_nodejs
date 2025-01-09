@@ -116,6 +116,7 @@ module.exports.createPost = async (req,res)=>{
     req.body.discountPercentage= parseInt(req.body.price)
     req.body.stock = parseInt(req.body.stock)
   
+    //console.log(req.file)
     if(req.body.position == ""){
       const countProducts = await Product.countDocuments()
       req.body.position=countProducts+1
@@ -123,9 +124,11 @@ module.exports.createPost = async (req,res)=>{
     else{
       req.body.position=parseInt(req.body.position)
     }
+    if(req.file){
     req.body.thumbnail=`/uploads/${req.file.filename}`
+    }
     const product = new Product(req.body)
-    console.log(product)
+    //console.log(product)
     await product.save()
   
     res.redirect(`${configSystem.prefixAdmin}/products`)
