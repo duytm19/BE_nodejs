@@ -2,6 +2,7 @@ const Product=require("../../models/product.model")
 const filterStatusHelper=require("../../helpers/filterStatus")
 const searchHelper=require("../../helpers/search")
 const paginationHelper=require("../../helpers/pagination")
+const configSystem = require("../../config/system")
 //[GET] /admin/products
 module.exports.index = async(req,res)=>{
     
@@ -96,8 +97,36 @@ module.exports.deleteItem = async (req,res)=>{
 
     //await Product.deleteOne({_id: id}) //Delete in Database
 
-    await Product.updateOne({_id:id },{deleted:true},{deletedAt: new Date()})
+    await Product.updateOne({_id:id },{deleted:true})
     req.flash('success',`Delete a product successfully!`)
 
     res.redirect("back")
 }
+
+//[GET] /admin/products/create
+module.exports.create = async(req,res)=>{
+    
+    res.render("admin/pages/products/create",{
+       pageTitle:"Thêm mới sản phẩm",
+    })
+ }
+ //[POST] /admin/products/create
+module.exports.createPost = async (req,res)=>{
+    req.body.price = parseInt(req.body.price)
+    req.body.discountPercentage= parseInt(req.body.price)
+    req.body.stock = parseInt(req.body.stock)
+  
+    if(req.body.position == ""){
+      const countProducts = await Product.countDocuments()
+      req.body.position=countProducts+1
+    }
+    else{
+      req.body.position=parseInt(req.body.position)
+    }
+    const product = new Product(req.body)
+    console.log(product)
+    await product.save()
+  
+    res.redirect(`${configSystem.prefixAdmin}/products`)
+   
+  }
