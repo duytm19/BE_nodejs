@@ -133,4 +133,47 @@ module.exports.createPost = async (req,res)=>{
   
     res.redirect(`${configSystem.prefixAdmin}/products`)
     
-  }
+}
+//[GET] /admin/products/edit/:id
+module.exports.edit = async(req,res)=>{
+    
+    try{
+        const find = {
+            deleted: false,
+            _id: req.params.id
+        }
+        const product = await Product.findOne(find)
+        res.render("admin/pages/products/edit",{
+           pageTitle:"Edit Product",
+           product:product
+        })
+    }
+    catch(error){
+        req.flash("error", "Can't show product, you want to edit ! Please try again")
+        res.redirect(`${configSystem.prefixAdmin}/products`)
+    }
+   
+ }
+ //[PATCH] /admin/products/edit/:id
+module.exports.editPatch = async (req,res)=>{
+    const id =req.params.id
+    req.body.price = parseInt(req.body.price)
+    req.body.discountPercentage= parseInt(req.body.price)
+    req.body.stock = parseInt(req.body.stock)
+    req.body.position=parseInt(req.body.position)
+    if(req.file){
+    req.body.thumbnail=`/uploads/${req.file.filename}`
+    }
+   // console.log(req.body)
+    try{
+        await Product.updateOne({_id: id}, req.body)
+        req.flash("success","Edit product successfully!")
+    }
+    catch(error){
+        req.flash("error","Can't edit product!")
+
+    }
+  
+    res.redirect(`${configSystem.prefixAdmin}/products`)
+    
+}

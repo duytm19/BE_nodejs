@@ -67,7 +67,7 @@
   }
 }
 [show-alert] [close-alert]{
-  background:#515151;
+  background:#3f1ab5;
   display: inline-block;
   width: 24px;
   height: 24px;
@@ -91,4 +91,10 @@
 .image-preview[src=""]{
   display:none;
 }
+[upload-image-input] [delete-image-preview]{
+  width: 24px;
+  height: 24px;
+  line-height: 24px;
+}
+
 /* End Image Preview */
