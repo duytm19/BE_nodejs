@@ -91,6 +91,10 @@ block main
                                     ) Dừng hoạt động
                             td
                                 a(
+                                   href=`${prefixAdmin}/products/detail/${item.id}` 
+                                   class="btn btn-secondary btn-sm"
+                                ) Chi Tiết 
+                                a(
                                     class="btn btn-warning btn-sm"
                                     href=`${prefixAdmin}/products/edit/${item.id}`
                                 ) Sửa 

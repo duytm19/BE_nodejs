@@ -189,11 +189,15 @@ if(uploadImage){
         const file = e.target.files[0] // e.target = uploadImageInput
         if(file){
             uploadImagePreview.src= URL.createObjectURL(file)
+            closeImagePreview.classList.remove('delete-hidden');
+            closeImagePreview.classList.add('delete-visible');
         }
     })
     closeImagePreview.addEventListener("click", ()=>{
         uploadImageInput.value=""
         uploadImagePreview.src=""
+        closeImagePreview.classList.remove('delete-visible');
+        closeImagePreview.classList.add('delete-hidden');
     })
 }
 //End Upload Image

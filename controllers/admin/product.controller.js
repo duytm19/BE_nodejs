@@ -177,3 +177,24 @@ module.exports.editPatch = async (req,res)=>{
     res.redirect(`${configSystem.prefixAdmin}/products`)
     
 }
+
+//[GET] /admin/products/detail/:id
+module.exports.detail = async(req,res)=>{
+    
+    try{
+        const find = {
+            deleted: false,
+            _id: req.params.id
+        }
+        const product = await Product.findOne(find)
+        res.render("admin/pages/products/edit",{
+           pageTitle:product.title,
+           product:product
+        })
+    }
+    catch(error){
+        req.flash("error", "Can't show detail product ! Please try again")
+        res.redirect(`${configSystem.prefixAdmin}/products`)
+    }
+   
+ }

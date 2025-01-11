@@ -74,16 +74,17 @@ block main
                 accept="image/*"
                 upload-image-input
             )
+            button(
+                type="button" 
+                class="btn btn-secondary delete-hidden" 
+                delete-image-preview 
+            ) X
             img(
                 src=""
                 upload-image-preview
                 class="image-preview"
             )
-            button(
-                type="button" 
-                class="btn btn-secondary" 
-                delete-image-preview 
-            ) X
+            
         div(class="form-group")
             label(for="position") Position 
             input(

@@ -91,10 +91,11 @@
 .image-preview[src=""]{
   display:none;
 }
-[upload-image-input] [delete-image-preview]{
-  width: 24px;
-  height: 24px;
-  line-height: 24px;
+.delete-hidden {
+  display: none;
+}
+.delete-visible {
+  display: inline-block;
 }
 
 /* End Image Preview */
