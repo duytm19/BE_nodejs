@@ -187,7 +187,7 @@ module.exports.detail = async(req,res)=>{
             _id: req.params.id
         }
         const product = await Product.findOne(find)
-        res.render("admin/pages/products/edit",{
+        res.render("admin/pages/products/detail",{
            pageTitle:product.title,
            product:product
         })
