@@ -3,6 +3,8 @@ const filterStatusHelper=require("../../helpers/filterStatus")
 const searchHelper=require("../../helpers/search")
 const paginationHelper=require("../../helpers/pagination")
 const configSystem = require("../../config/system")
+//const cloudinary = require("../../helpers/cloudinary")
+
 //[GET] /admin/products
 module.exports.index = async(req,res)=>{
     
@@ -124,9 +126,7 @@ module.exports.createPost = async (req,res)=>{
     else{
       req.body.position=parseInt(req.body.position)
     }
-    if(req.file){
-    req.body.thumbnail=`/uploads/${req.file.filename}`
-    }
+  
     const product = new Product(req.body)
     //console.log(product)
     await product.save()
