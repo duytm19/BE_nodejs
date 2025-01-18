@@ -4,6 +4,8 @@ include ../../mixins/search.pug
 include ../../mixins/pagination.pug
 include ../../mixins/form-change-multi.pug
 include ../../mixins/alert.pug
+include ../../mixins/sort.pug
+
 block main  
     
     +alert-success("5000")
@@ -23,23 +25,7 @@ block main
         .card-body
             .row
                 .col-4
-                    div(sort)
-                        select(
-                            class="form-control"
-                            name="sort"
-                            sort-select
-                        )
-                            option(value="position-desc") Descent Position
-                            option(value="position-asc") Ascent Position 
-                            option(value="price-desc") Descent Price 
-                            option(value="price-asc") Ascent Price
-                            option(value="title-desc") A - Z 
-                            option(value="title-asc")  Z - A   
-
-                        button(
-                            class="btn btn-danger mt-2"
-                            sort-clear
-                        ) Clear
+                    +sort()
 
     .card.mb-3
         .card-header Danh sách sản phẩm
