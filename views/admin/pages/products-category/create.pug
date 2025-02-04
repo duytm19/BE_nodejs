@@ -1,11 +1,11 @@
 extends ../../layouts/default.pug
-//- include ../../mixins/alert.pug
+include ../../mixins/select-tree.pug
+include ../../mixins/alert.pug
 
 block main  
+    h1(class="mb-4") Add new category
 
-    //- +alert-error("5000")
-
-    h1(class="mb-4") Add new category 
+    +alert-error("5000")
 
     form(
         action=`${prefixAdmin}/products-category/create`
@@ -23,12 +23,16 @@ block main
             )
         div(class="form-group")
             label(for="parent_id") Parent Category 
-            input(
-                type="text"
-                class="form-control"
-                id="parent_id"
+
+            select(
                 name="parent_id"
+                id="parent_id"
+                class="form-control"
             )
+
+                option(value="") -- Choose Parent Category --
+                if(records)
+                    +select-tree(records)
         div(class="form-group")
             label(for="desc") Description 
             textarea(
@@ -94,4 +98,4 @@ block main
                     type="submit"
                     class="btn btn-primary"
                 ) Create new product
-    //- script(src=`${prefixAdmin}/js/product.js`)
+    script(src=`${prefixAdmin}/js/product.js`)
