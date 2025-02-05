@@ -21,9 +21,6 @@ module.exports.create = async (req, res) => {
   let find = {
     deleted: false,
   };
-
- 
-
   const records = await ProductCategory.find(find);
 
   const newRecords = createTreeHelper.tree(records);
@@ -42,8 +39,39 @@ module.exports.createPost = async (req, res) => {
   }
 
   const record = new ProductCategory(req.body);
-  //console.log(product)
   await record.save();
 
   res.redirect(`${configSystem.prefixAdmin}/products-category`);
+};
+//[GET] /admin/products-category/edit/:id
+module.exports.edit = async (req, res) => {
+  try{
+  const id = req.params.id
+
+  let find = {
+    deleted: false,
+    _id: id
+  };
+  const data = await ProductCategory.findOne(find)
+
+  const records = await ProductCategory.find( {deleted: false});
+
+  const newRecords = createTreeHelper.tree(records);
+  res.render("admin/pages/products-category/edit", {
+    pageTitle: "Thêm mới danh muc",
+    records: newRecords,
+    data: data
+  });}
+  catch{
+    res.redirect(`${configSystem.prefixAdmin}/products-category`);
+  }
+};
+//[PATCH] /admin/products-categoty/edit/:id
+module.exports.editPatch = async (req, res) => {
+  const id = req.params.id
+  req.body.position= parseInt(req.body.position)
+
+  await ProductCategory.updateOne({_id: id},req.body)
+
+  res.redirect("back");
 };
