@@ -1,0 +1,71 @@
+extends ../../layouts/default.pug
+include ../../mixins/alert
+
+block main 
+    +alert-success(5000)
+
+    h1(class="mb-4") Permissions 
+
+
+    if(records)
+        div(data-records=records)
+        div(class="text-center")
+            button(
+                type="submit"
+                class="btn btn-primary mb-3"
+                button-submit
+            )   Update
+
+        table(
+            class="table table-hover table-sm"
+            table-permissions
+        )   
+            thead 
+                tr 
+                    th Feature 
+                    each item in  records 
+                        th(class="text-center") #{item.title}
+                    tbody 
+                        tr(data-name="id" class="d-none")
+                            td
+                            each item in records 
+                                td(class="text-center")
+                                    input(type="text" value=item.id)
+                        tr  
+                            td(colspan="4")
+                                b Category 
+                        tr(data-name="products-category_view")
+                            td View 
+                            each item in records 
+                                td(class="text-center")
+                                    input(type="checkbox")
+                        tr(data-name="products-category_create")
+                            td Create 
+                            each item in records 
+                                td(class="text-center")
+                                    input(type="checkbox")
+                        tr(data-name="products-category_edit")
+                            td Edit 
+                            each item in records 
+                                td(class="text-center")
+                                    input(type="checkbox")
+                        tr(data-name="products-category_delete")
+                            td Delete 
+                            each item in records 
+                                td(class="text-center")
+                                    input(type="checkbox")
+
+    form(
+        id="form-change-permissions"
+        method="POST"
+        action=`${prefixAdmin}/roles/permissions?_method=PATCH`
+        class="d-none"
+    )
+        div(class="form-group")
+            input(
+                type="text"
+                class="form-control"
+                name="permissions"
+            )
+    script(src="/admin/js/roles.js")
+
