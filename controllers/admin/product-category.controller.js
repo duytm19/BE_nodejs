@@ -75,3 +75,28 @@ module.exports.editPatch = async (req, res) => {
 
   res.redirect("back");
 };
+//[PATCH] /admin/products-category/change-status/:status/:id
+module.exports.changeStatus = async (req,res)=>{
+  //console.log(req.params)
+  const status = req.params.status
+  const id = req.params.id
+
+  await ProductCategory.updateOne({_id: id},{status: status})
+
+  req.flash('success','Update status of product successfully!')
+  //req.flash('success', 'Welcome');
+
+  res.redirect("back")
+}
+//[DELETE] /admin/products-category/delete/:id
+module.exports.deleteItem = async (req,res)=>{
+    
+  const id = req.params.id
+
+
+
+  await ProductCategory.updateOne({_id:id },{deleted:true})
+  req.flash('success',`Delete a category successfully!`)
+
+  res.redirect("back")
+}
