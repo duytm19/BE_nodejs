@@ -2,6 +2,8 @@ const express = require("express");
 const path = require('path'); 
 require("dotenv").config();
 const flash = require('express-flash')
+const moment = require('moment')
+
 const database = require("./config/database");
 const systemConfig=require("./config/system")
 const methodOverride = require('method-override')
@@ -37,6 +39,7 @@ app.use('/tinymce', express.static(path.join(__dirname, 'node_modules', 'tinymce
 
 //App Locals Variables
 app.locals.prefixAdmin=systemConfig.prefixAdmin
+app.locals.moment=moment
 
 app.use(express.static(`${__dirname}/public`));
 routeAdmin(app);
