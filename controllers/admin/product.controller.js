@@ -56,9 +56,20 @@ module.exports.index = async (req, res) => {
     .skip(objectPagination.skip);
 
   for (const product of products) {
-    const user = await Account.findOne({ _id: product.createdBy.account_id });
-    if (user) {
-      product.accountFullName = user.fullName;
+    //create log
+    const userCreated = await Account.findOne({
+      _id: product.createdBy.account_id,
+    });
+    if (userCreated) {
+      product.accountFullName = userCreated.fullName;
+    }
+    //update log
+    if (updatedBy) {
+      const updatedBy = product.updatedBy.slice(-1)[0]; // get last value in an array
+      const userUpdated = await Account.findOne({
+        _id: updatedBy.account_id,
+      });
+      updatedBy.accountFullName= userUpdated.fullName
     }
   }
   res.render("admin/pages/products/index", {
@@ -76,7 +87,14 @@ module.exports.changeStatus = async (req, res) => {
   const status = req.params.status;
   const id = req.params.id;
 
-  await Product.updateOne({ _id: id }, { status: status });
+  const updatedBy = {
+    account_id: res.locals.user.id,
+    updatedAt: new Date(),
+  };
+  await Product.updateOne(
+    { _id: id },
+    { status: status, $push: { updatedBy: updatedBy } }
+  );
 
   req.flash("success", "Update status of product successfully!");
   //req.flash('success', 'Welcome');
@@ -88,16 +106,26 @@ module.exports.changeMulti = async (req, res) => {
   // console.log(req.body)
   const type = req.body.type;
   const ids = req.body.ids.split(", ");
+  const updatedBy = {
+    account_id: res.locals.user.id,
+    updatedAt: new Date(),
+  };
   switch (type) {
     case "active":
-      await Product.updateMany({ _id: { $in: ids } }, { status: "active" });
+      await Product.updateMany(
+        { _id: { $in: ids } },
+        { status: "active", $push: { updatedBy: updatedBy } }
+      );
       req.flash(
         "success",
         `Update status of ${ids.length} products successfully!`
       );
       break;
     case "inactive":
-      await Product.updateMany({ _id: { $in: ids } }, { status: "inactive" });
+      await Product.updateMany(
+        { _id: { $in: ids } },
+        { status: "inactive", $push: { updatedBy: updatedBy } }
+      );
       req.flash(
         "success",
         `Update status of ${ids.length} products successfully!`
@@ -106,8 +134,10 @@ module.exports.changeMulti = async (req, res) => {
     case "delete-all":
       await Product.updateMany(
         { _id: { $in: ids } },
-        { deleted: true },
-        { deletedBy: { account_id: res.locals.user.id, deletedAt: Date.now } }
+        {
+          deleted: true,
+          deletedBy: { account_id: res.locals.user.id, deletedAt: Date.now },
+        }
       );
       req.flash("success", `Delete ${ids.length} products successfully!`);
       break;
@@ -115,7 +145,10 @@ module.exports.changeMulti = async (req, res) => {
       for (item of ids) {
         let [id, position] = item.split("-");
         position = parseInt(position);
-        await Product.updateOne({ _id: id }, { position: position });
+        await Product.updateOne(
+          { _id: id },
+          { position: position, $push: { updatedBy: updatedBy } }
+        );
       }
       break;
     default:
@@ -129,7 +162,10 @@ module.exports.deleteItem = async (req, res) => {
 
   //await Product.deleteOne({_id: id}) //Delete in Database
 
-  await Product.updateOne({ _id: id }, { deletedBy: { account_id: res.locals.user.id, deletedAt: Date.now } });
+  await Product.updateOne(
+    { _id: id },
+    { deletedBy: { account_id: res.locals.user.id, deletedAt: Date.now } }
+  );
   req.flash("success", `Delete a product successfully!`);
 
   res.redirect("back");
@@ -205,7 +241,14 @@ module.exports.editPatch = async (req, res) => {
   }
   // console.log(req.body)
   try {
-    await Product.updateOne({ _id: id }, req.body);
+    const updatedBy = {
+      account_id: res.locals.user.id,
+      updatedAt: new Date(),
+    };
+    await Product.updateOne(
+      { _id: id },
+      { ...req.body, $push: { updatedBy: updatedBy } }
+    );
     req.flash("success", "Edit product successfully!");
   } catch (error) {
     req.flash("error", "Can't edit product!");
