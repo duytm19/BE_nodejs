@@ -64,8 +64,9 @@ module.exports.index = async (req, res) => {
       product.accountFullName = userCreated.fullName;
     }
     //update log
+    const updatedBy = product.updatedBy.slice(-1)[0]; // get last value in an array
+
     if (updatedBy) {
-      const updatedBy = product.updatedBy.slice(-1)[0]; // get last value in an array
       const userUpdated = await Account.findOne({
         _id: updatedBy.account_id,
       });
