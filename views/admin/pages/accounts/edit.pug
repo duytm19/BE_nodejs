@@ -7,11 +7,10 @@ block main
         +alert-success("5000")
         +alert-error("5000")
 
-        h1(class="mb-4") Add new account 
+        h1(class="mb-4") Edit account 
 
         form(
             action=`${prefixAdmin}/accounts/edit/${data.id}?_method=PATCH`
-            id="form-create-account"
             method="POST"
             enctype="multipart/form-data"
         )

@@ -89,8 +89,9 @@ module.exports.editPatch = async (req, res) => {
     }
     await Account.updateOne({ _id: id }, req.body);
     req.flash("success", "Update successfully! ");
-    res.redirect("back");
   }
+  res.redirect("back");
+
 };
 
 //[GET] /admin/roles/permissions
