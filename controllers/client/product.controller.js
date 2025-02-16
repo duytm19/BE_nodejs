@@ -26,10 +26,21 @@ module.exports.detail = async (req, res) => {
       status: "active",
     };
     const product = await Product.findOne(find);
+
+    if(product.product_category_id){
+      const category = await ProductCategory.findOne({
+        _id: product.product_category_id,
+        status:"active",
+        deleted: false
+      })
+      product.category = category
+    }
+    product.priceNew = productsHelper.priceNewProduct(product)
     res.render("client/pages/products/detail", {
       pageTitle: product.title,
       product: product,
     });
+
   } catch (error) {
     req.flash("error", "Can't show detail product ! Please try again");
     res.redirect(`/products`);
