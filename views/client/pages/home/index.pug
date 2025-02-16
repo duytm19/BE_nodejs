@@ -1,4 +1,13 @@
 extends ../../layouts/default.pug
+include ../../mixins/box-head.pug
+include ../../mixins/product-layout.pug
+
 
 block main 
-    h1 Trang home
+    .section-products-featured.my-5 
+        .container 
+            .row   
+                .cole-12 
+                    +box-head("Featured Products")
+            
+            +product-grid(productsFeatured)

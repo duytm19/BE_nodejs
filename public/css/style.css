@@ -49,11 +49,24 @@
   width: 100%;
   aspect-ratio: 4/3;
   border-bottom: 1px solid #ddd;
+  position: relative;
 }
 .product-item .inner-image img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+.product-item .inner-featured {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: green;
+  color: white;
+  padding: 3px 6px;
+  font-weight: 600;
+  font-size: 14px;
+  border-radius: 8px;
 }
 
 .product-item .inner-content {
@@ -72,33 +85,33 @@
 }
 
 .product-item .inner-content .inner-price-old {
-    font-size: 18px;
-    font-weight: 600; 
-    color: red;
-    text-decoration: line-through ;
+  font-size: 18px;
+  font-weight: 600;
+  color: red;
+  text-decoration: line-through;
 }
 
-.product-item .inner-content .inner-discount{
-    font-size: 14px; 
-    font-weight: 600; 
-    color: white;
-    background:red; 
-    display: inline-block; 
-    padding: 3px 10px; 
-    border-radius: 8px; 
+.product-item .inner-content .inner-discount {
+  font-size: 14px;
+  font-weight: 600;
+  color: white;
+  background: red;
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 8px;
 }
 /* End product-item */
 
 /* sub-menu */
 
-.sub-menu{
+.sub-menu {
   position: relative;
   z-index: 999;
 }
 .sub-menu ul {
   position: absolute;
   right: 0;
-  top:100%;
+  top: 100%;
   list-style: none;
   padding: 0;
   margin: 0;
@@ -106,23 +119,23 @@
   min-width: 180px;
   display: none;
 }
-.sub-menu ul li{
+.sub-menu ul li {
   padding: 10px;
   border-bottom: 1px solid #ddd;
 }
-.sub-menu:hover > ul{
+.sub-menu:hover > ul {
   display: block;
 }
 .sub-menu ul li {
   position: relative;
 }
 
-.sub-menu ul li ul{
+.sub-menu ul li ul {
   right: 100%;
   top: 0;
 }
 
-.sub-menu ul li:hover > ul{
+.sub-menu ul li:hover > ul {
   display: block;
 }
 /* End sub-menu */
