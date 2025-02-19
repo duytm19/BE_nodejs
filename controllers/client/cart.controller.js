@@ -23,14 +23,12 @@ module.exports.index = async (req,res) =>{
             item.productInfo = productInfo
 
             item.totalPrice = productInfo.priceNew * item.quantity
-            //console.log(item.totalPrice)
         }
     }
     cart.totalPrice = cart.products.reduce((sum,item)=>
         sum + item.totalPrice,0
     )
 
-    console.log(cart.totalPrice)
     res.render("client/pages/cart/index",{
         pageTitle: "Cart",
         cartDetail: cart
@@ -73,6 +71,24 @@ module.exports.addPost = async (req,res)=>{
         })
     }
     req.flash("success","Add products into cart successfully!!!!!")
+
+    res.redirect("back")
+}
+
+// [GET] /cart/delete/:productId
+module.exports.delete = async(req,res)=>{
+    const cartId = req.cookies.cartId;
+    const productId = req.params.productId
+
+    await Cart.updateOne({
+        _id: cartId
+    },{
+        $pull: {products: {product_id: productId}}
+    })
+
+    req.flash(
+        "success","Remove products from cart successfully!!"
+    )
 
     res.redirect("back")
 }
