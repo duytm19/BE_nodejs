@@ -38,7 +38,12 @@ header.header
 
                         li
                             a(href=`/cart`) Cart (#{miniCart ? miniCart.totalQuantity : 0})
-                        li 
-                            a(class="btn btn-outline-success" href= `/user/login`) Sign in
-                        li 
-                            a(class="btn btn-outline-danger" href= `/user/register`) Sign up
+
+                        if(user)
+                            li
+                                a(class="btn btn-outline-secondary" href= `/user/logout`) Log out
+                        else
+                            li 
+                                a(class="btn btn-outline-success" href= `/user/login`) Sign in
+                            li 
+                                a(class="btn btn-outline-danger" href= `/user/register`) Sign up
