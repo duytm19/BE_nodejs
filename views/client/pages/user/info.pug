@@ -1,0 +1,16 @@
+extends ../../layouts/default.pug
+include ../../mixins/box-head.pug
+
+block main
+    .container.my-3
+        .row
+            .col-12
+                +box-head("User Information")
+
+    if(user.fullName)
+        p Full Name: <b>#{user.fullName}</b>
+    
+    if(user.email)
+        p Email: <b>#{user.email}</b>
+
+           

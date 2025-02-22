@@ -3,6 +3,7 @@ const md5 = require("md5")
 const generateHelper = require("../../helpers/generate")
 const ForgotPassword = require('../../models/forgot-password.models')
 const sendMailHelper = require('../../helpers/sendEmail')
+const Cart = require("../../models/cart.model")
 //[GET] /user/register
 module.exports.register = async (req,res)=>{
     res.render("client/pages/user/register",{
@@ -60,7 +61,21 @@ module.exports.loginPost = async (req,res)=>{
         res.redirect("back")
         return
     }
+    const cart = await Cart.findOne({
+        user_id:user.id
+    })
 
+    if(cart){
+        res.cookie("cartId", cart.id)
+    }
+    else{
+        await Cart.updateOne({
+            _id: req.cookie.cartId
+        },{
+            user_id: user.id
+        })
+    }
+    
     res.cookie("tokenUser",user.tokenUser)
 
     res.redirect("/")
@@ -68,6 +83,7 @@ module.exports.loginPost = async (req,res)=>{
 //[GET] /user/logout
 module.exports.logout = async (req,res) =>{
     res.clearCookie("tokenUser")
+    res.clearCookie("cartId")
     res.redirect("/")
 }
 //[GET] /user/password/forgot
@@ -106,7 +122,7 @@ module.exports.forgotPasswordPost = async (req,res)=>{
     //Send OTP
     const subject = "OTP CODE TO RESET YOUR PASSWORD"
     const html = `<h3> OTP CODE TO RESET YOUR PASSWORD: </h3>
-    <b style="color: red;">${otp}</b> .<h3>The expired time is: 3 minutes</h3>
+    <b style="color: red;">${otp}</b>.<h3>The expired time is: 3 minutes</h3>
     `
     sendMailHelper.sendMail(email,subject,html)
     //End Send OTP
@@ -169,5 +185,11 @@ module.exports.resetPasswordPost = async (req,res) =>{
 
     res.clearCookie("tokenUser")
     res.redirect("/user/login")
+}
 
+//[GET] /user/info
+module.exports.info =async (req,res)=>{
+    res.render("client/pages/user/info",{
+        pageTitle: "User Information",
+    })
 }

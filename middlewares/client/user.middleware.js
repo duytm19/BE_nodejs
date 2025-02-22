@@ -8,7 +8,6 @@ module.exports.infoUser = async (req, res , next)=>{
             status: "active"
         }).select("-password")
        
-        
         if(user){
             res.locals.user=user
         }

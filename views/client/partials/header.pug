@@ -41,6 +41,8 @@ header.header
 
                         if(user)
                             li
+                                a(class="btn btn-outline-info" href= `/user/info`) #{user.fullName}
+                            li
                                 a(class="btn btn-outline-secondary" href= `/user/logout`) Log out
                         else
                             li 
