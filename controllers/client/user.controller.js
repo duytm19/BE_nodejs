@@ -105,8 +105,8 @@ module.exports.forgotPasswordPost = async (req,res)=>{
 
     //Send OTP
     const subject = "OTP CODE TO RESET YOUR PASSWORD"
-    const html = `<h3> OTP CODE TO RESET YOUR PASSWORD: 
-    <b>${otp}</b</h3>. The expired time is: 3 minutes
+    const html = `<h3> OTP CODE TO RESET YOUR PASSWORD: </h3>
+    <b style="color: red;">${otp}</b> .<h3>The expired time is: 3 minutes</h3>
     `
     sendMailHelper.sendMail(email,subject,html)
     //End Send OTP
