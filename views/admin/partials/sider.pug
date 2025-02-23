@@ -5,17 +5,19 @@
                 a(href=`${prefixAdmin}/dashboard`) Tổng quan
             if(role.permissions.includes("products-category_view"))
                 li
-                    a(href=`${prefixAdmin}/products-category`) Danh mục sản phẩm
+                    a(href=`${prefixAdmin}/products-category`) Products Category
             if(role.permissions.includes("products_view"))
                 li 
-                    a(href=`${prefixAdmin}/products`) Danh sách sản phẩm
+                    a(href=`${prefixAdmin}/products`) Products
             if(role.permissions.includes("roles_view"))
                 li 
-                    a(href=`${prefixAdmin}/roles`) Nhóm quyền
+                    a(href=`${prefixAdmin}/roles`) Roles
             if(role.permissions.includes("roles_permissions"))
                 li 
-                    a(href=`${prefixAdmin}/roles/permissions`) Phân quyền
+                    a(href=`${prefixAdmin}/roles/permissions`) Permissions
             if(role.permissions.includes("accounts_view"))
                 li 
-                    a(href=`${prefixAdmin}/accounts`) Tài khoản
+                    a(href=`${prefixAdmin}/accounts`) Accounts
+            li 
+                a(href=`${prefixAdmin}/settings/general`) Setting General
 
