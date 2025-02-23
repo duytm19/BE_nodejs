@@ -56,12 +56,19 @@ module.exports.order = async (req,res) =>{
 
         const productInfo = await Product.findOne({
             _id: product.product_id
-        }).select("price discountPercentage")
-
+        }).select("price discountPercentage stock")
         objectProduct.price = productInfo.price
         objectProduct.discountPercentage = productInfo.discountPercentage
 
         products.push(objectProduct)
+
+        // Update Stock
+        productInfo.stock = productInfo.stock- product.quantity
+        await Product.updateOne({
+            _id:productInfo.id
+        },{
+            stock: productInfo.stock
+        })
     }
     const orderInfo={
         cart_id: cartId,

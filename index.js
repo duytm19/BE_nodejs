@@ -41,9 +41,15 @@ app.use('/tinymce', express.static(path.join(__dirname, 'node_modules', 'tinymce
 app.locals.prefixAdmin=systemConfig.prefixAdmin
 app.locals.moment=moment
 
+//Routes
 app.use(express.static(`${__dirname}/public`));
 routeAdmin(app);
 route(app);
+app.get("*",(req,res)=>{
+  res.render("client/pages/errors/404",{
+    pageTitle: "404 Not Found"
+  })
+})
 
 app.listen(port, () => {
   console.log(`App is running at http://localhost:${port}`);

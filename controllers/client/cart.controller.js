@@ -16,7 +16,7 @@ module.exports.index = async (req,res) =>{
             const productId = item.product_id
             const productInfo = await Product.findOne({
                 _id: productId
-            }).select("title thumbnail slug price discountPercentage")
+            }).select("title thumbnail slug price discountPercentage stock")
 
             productInfo.priceNew = productsHelper.priceNewProduct(productInfo)
 
