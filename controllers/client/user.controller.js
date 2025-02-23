@@ -70,7 +70,7 @@ module.exports.loginPost = async (req,res)=>{
     }
     else{
         await Cart.updateOne({
-            _id: req.cookie.cartId
+            _id: req.cookies.cartId
         },{
             user_id: user.id
         })
