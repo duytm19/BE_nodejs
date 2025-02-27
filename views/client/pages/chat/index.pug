@@ -9,9 +9,9 @@ block main
 
         .row 
             .col-12 
-                .chat 
+                .chat(my-id=user.id) 
                     .inner-body 
-                        each  chat in chats 
+                        each chat in chats 
                             div(class=(chat.user_id == user.id ? "inner-outgoing":"inner-incoming"))
                                 if(chat.user_id !=user.id)
                                     .inner-name #{chat.infoUser.fullName}

@@ -13,6 +13,15 @@ module.exports.index= async (req,res)=>{
                 content: content
             })
             await chat.save()
+
+            //Server return message
+
+            _io.emit("SERVER_RETURN_MESSAGE",{
+                userId: userId,
+                fullName:fullName,
+                content:content
+            })
+            //End Server return message
         })
     })
     //End Socket IO
