@@ -26,10 +26,8 @@ const port = 3000;
 //Socket IO
 const server = http.createServer(app)
 const io = new Server(server)
+global._io = io
 
-io.on('connection',(socket)=>{
-  console.log("a user connected",socket.id)
-})
 // End Socket IO
 // override POST to PATCH
 app.use(methodOverride('_method'))
