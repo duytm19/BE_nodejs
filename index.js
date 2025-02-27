@@ -10,6 +10,10 @@ const methodOverride = require('method-override')
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
 const session = require('express-session')
+
+const http =require('http')
+const {Server} = require('socket.io')
+
 //ROUTER
 const routeAdmin = require("./routes/admin/index.route");
 const route = require("./routes/client/index.route");
@@ -18,6 +22,15 @@ database.connect();
 
 const app = express();
 const port = 3000;
+
+//Socket IO
+const server = http.createServer(app)
+const io = new Server(server)
+
+io.on('connection',(socket)=>{
+  console.log("a user connected",socket.id)
+})
+// End Socket IO
 // override POST to PATCH
 app.use(methodOverride('_method'))
 // parse application/x-www-form-urlencoded
@@ -51,6 +64,6 @@ app.get("*",(req,res)=>{
   })
 })
 
-app.listen(port, () => {
+server.listen(port, () => {
   console.log(`App is running at http://localhost:${port}`);
 });
