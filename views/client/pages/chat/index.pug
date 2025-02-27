@@ -1,0 +1,39 @@
+extends ../../layouts/default.pug
+include ../../mixins/box-head.pug 
+
+block main 
+    .container.my-3 
+        .row 
+            .col-12 
+                +box-head("Chat")
+
+        .row 
+            .col-12 
+                .chat 
+                    .inner-body 
+                        .inner-incoming 
+                            .inner-name Em yêu 
+                            .inner-content 
+                                | Anh Duy ơi sang nhà em nha, ba mẹ em đi rùi :33
+
+                            .inner-outgoing 
+                                .inner-content 
+                                    | Thế à, zị anh tới ây. Em iu :3
+                            .inner-name Em yêu 
+                            .inner-content 
+                                | Nhanh Nhanh nha anh iu <3
+                    
+                    .inner-foot 
+                        form(
+                            class="inner-form"
+                            action=""
+                        )
+                            input(
+                                type='text'
+                                placeholder="Please enter content"
+                                name="content"
+                            )
+                            button 
+                                
+                                i.fa-solid.fa-paper-plane
+                            
