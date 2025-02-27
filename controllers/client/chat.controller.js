@@ -5,8 +5,10 @@ const User = require("../../models/user.model")
 
 module.exports.index= async (req,res)=>{
     const userId = res.locals.user.id  
+    const fullName = res.locals.user.fullName
     //Socket IO
     _io.once('connection',(socket)=>{
+        //Save message in database
         socket.on("CLIENT_SEND_MESSAGE", async (content)=>{
             const chat = new Chat({
                 user_id: userId,
@@ -22,6 +24,14 @@ module.exports.index= async (req,res)=>{
                 content:content
             })
             //End Server return message
+        })
+        //Typing
+        socket.on("CLIENT_SEND_TYPING", async (type)=>{
+            socket.broadcast.emit("SERVER_ RETURN_TYPING",{
+                userId: userId,
+                fullName:fullName,
+                type:type
+            })
         })
     })
     //End Socket IO
