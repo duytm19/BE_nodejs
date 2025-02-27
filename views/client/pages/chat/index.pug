@@ -11,17 +11,23 @@ block main
             .col-12 
                 .chat 
                     .inner-body 
-                        .inner-incoming 
-                            .inner-name Em yêu 
-                            .inner-content 
-                                | Anh Duy ơi sang nhà em nha, ba mẹ em đi rùi :33
-
-                            .inner-outgoing 
+                        each  chat in chats 
+                            div(class=(chat.user_id == user.id ? "inner-outgoing":"inner-incoming"))
+                                if(chat.user_id !=user.id)
+                                    .inner-name #{chat.infoUser.fullName}
                                 .inner-content 
-                                    | Thế à, zị anh tới ây. Em iu :3
-                            .inner-name Em yêu 
-                            .inner-content 
-                                | Nhanh Nhanh nha anh iu <3
+                                    | #{chat.content}
+                        //- .inner-incoming 
+                        //-     .inner-name Em yêu 
+                        //-     .inner-content 
+                        //-         | Anh Duy ơi sang nhà em nha, ba mẹ em đi rùi :33
+
+                        //-     .inner-outgoing 
+                        //-         .inner-content 
+                        //-             | Thế à, zị anh tới ây. Em iu :3
+                        //-     .inner-name Em yêu 
+                        //-     .inner-content 
+                        //-         | Nhanh Nhanh nha anh iu <3
                     
                     .inner-foot 
                         form(
