@@ -39,7 +39,6 @@ module.exports.request = async (req,res)=>{
      _id: userId,
    });
    const requestFriends = myUser.requestFriends;
-   const acceptFriends = myUser.acceptFriends;
    const users = await User.find({
      _id:{$in: requestFriends},
      status: "active",
@@ -50,4 +49,27 @@ module.exports.request = async (req,res)=>{
      pageTitle: "Request List",
      users: users,
    });
+}
+// [GET] /users/
+module.exports.accept = async (req,res)=>{
+  // Socket
+  usersSocket(res);
+  // End Socket
+  const userId = res.locals.user.id;
+
+  const myUser = await User.findOne({
+    _id: userId,
+  });
+
+  const acceptFriends = myUser.acceptFriends;
+  const users = await User.find({
+    _id:{$in: acceptFriends},
+    status: "active",
+    deleted: false,
+  }).select("id avatar fullName");
+
+  res.render("client/pages/users/accept", {
+    pageTitle: "Accept List",
+    users: users,
+  });
 }

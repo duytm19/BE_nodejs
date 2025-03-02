@@ -13,7 +13,7 @@ if(listBtnAddFriend.length>0){
 }
 // End Send request add friend
 
-// Send cancel add friend
+//  cancel add friend
 const listBtnCancelFriend = document.querySelectorAll("[btn-cancel-friend]")
 if(listBtnCancelFriend.length>0){
     listBtnCancelFriend.forEach(button=>{
@@ -27,3 +27,18 @@ if(listBtnCancelFriend.length>0){
     })
 }
 // End cancel request add friend
+
+// Refuse request add friend
+const listBtnRefuselFriend = document.querySelectorAll("[btn-refuse-friend]")
+if(listBtnRefuselFriend.length>0){
+    listBtnRefuselFriend.forEach(button=>{
+        button.addEventListener("click",()=>{
+            button.closest(".box-user").classList.add("refuse")
+
+            const userId = button.getAttribute("btn-refuse-friend")
+            console.log(userId)
+            socket.emit("CLIENT_REFUSE_FRIEND",userId)
+        })
+    })
+}
+// End Refuse request add friend

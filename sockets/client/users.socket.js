@@ -54,7 +54,7 @@ module.exports = (res)=>{
                 acceptFriends: myUserId
             })
 
-            if(!existAinB){
+            if(existAinB){
                 await User.updateOne({
                     _id: userId
                 },{
@@ -69,11 +69,48 @@ module.exports = (res)=>{
                 requestFriends: userId
             })
 
-            if(!existBinA){
+            if(existBinA){
                 await User.updateOne({
                     _id: myUserId
                 },{
                     $pull: {requestFriends: userId}
+                })
+            }
+            
+        })
+
+        //Refuse request
+        socket.on("CLIENT_REFUSE_FRIEND", async (userId)=>{
+
+            const myUserId = res.locals.user.id
+            
+            // Delete A in accept friends of B
+
+            const existAinB= await User.findOne({
+                _id: myUserId,
+                acceptFriends: userId
+            })
+
+            if(existAinB){
+                await User.updateOne({
+                    _id: myUserId
+                },{
+                    $pull: {acceptFriends: userId}
+                })
+            }
+
+            // Delete B in request friends of A
+
+            const existBinA= await User.findOne({
+                _id: userId,
+                requestFriends: myUserId
+            })
+
+            if(existBinA){
+                await User.updateOne({
+                    _id: userId
+                },{
+                    $pull: {requestFriends: myUserId}
                 })
             }
             
