@@ -10,7 +10,7 @@ const searchRoutes = require("./search.route")
 const cartRoutes = require("./cart.route")
 const checkoutRoutes = require("./checkout.route")
 const userRoutes = require('./user.route')
-
+const usersRoutes = require('./users.route')
 
 const chatRoutes = require("./chat.route")
 
@@ -37,4 +37,6 @@ module.exports = (app) => {
     app.use("/user", userRoutes)
 
     app.use('/chat',authMiddleware.requireAuth,chatRoutes)
+
+    app.use('/users',authMiddleware.requireAuth, usersRoutes)
 }
