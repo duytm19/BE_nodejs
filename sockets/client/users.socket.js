@@ -105,6 +105,11 @@ module.exports = async (res)=>{
                 lengthAcceptFriends:lengthAcceptFriends
             })
             
+            // Get id of A and return to B
+            socket.broadcast.emit("SERVER_RETURN_USER_ID_CANCEL_FRIEND",{
+                userIdB:userId,
+                userIdA:myUserId
+            })
         })
 
         //Refuse request
