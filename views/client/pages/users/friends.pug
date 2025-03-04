@@ -20,15 +20,14 @@ block main
                             )
                         div(class="inner-info")
                             div(class="inner-name") #{user.fullName}
-                            div(class="inner-buttons")
-                                button(
+                            div(class="inner-button")
+                               a(
+                                    href="#"
                                     class="btn btn-sm btn-primary mr-1"
-                                    btn-add-friend=user.id
-                                ) Add Friend 
-
-                                button(
-                                    class="btn btn-sm btn-secondary mr-1"
-                                    btn-cancel-friend=user.id
-                                ) Cancel
+                               ) Chat 
+                        div(
+                            class="inner-status"
+                            status=user.statusOnline
+                        )   <i class="fa-solid fa-circle"></i>
 block script 
     script(src="/js/users.js")
