@@ -48,6 +48,16 @@ module.exports = async (res)=>{
                 userId:userId,
                 lengthAcceptFriends:lengthAcceptFriends
             })
+                // A send request to B, in B accept real-time
+                // GET info of A and return to B
+                const infoUserA = await User.findOne({
+                    _id: myUserId,
+                }).select("id avatar fullName")
+
+                socket.broadcast.emit("SERVER_RETURN_INFO_ACCEPT_FRIEND",{
+                    userId:userId,
+                    infoUserA:infoUserA
+                })
         })
 
         //Cancel request
@@ -89,7 +99,7 @@ module.exports = async (res)=>{
                 _id:userId
             }) 
             const lengthAcceptFriends = infoUserB.acceptFriends.length;
-
+            
             socket.broadcast.emit("SERVER_RETURN_LENGTH_ACCEPT_FRIEND",{
                 userId:userId,
                 lengthAcceptFriends:lengthAcceptFriends

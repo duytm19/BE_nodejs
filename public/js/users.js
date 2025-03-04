@@ -29,30 +29,36 @@ if(listBtnCancelFriend.length>0){
 // End cancel request add friend
 
 // Refuse request add friend
+const refuseFriend= (button)=>{
+    button.addEventListener("click",()=>{
+        button.closest(".box-user").classList.add("refuse")
+
+        const userId = button.getAttribute("btn-refuse-friend")
+        
+        socket.emit("CLIENT_REFUSE_FRIEND",userId)
+    })
+}
 const listBtnRefuselFriend = document.querySelectorAll("[btn-refuse-friend]")
 if(listBtnRefuselFriend.length>0){
     listBtnRefuselFriend.forEach(button=>{
-        button.addEventListener("click",()=>{
-            button.closest(".box-user").classList.add("refuse")
-
-            const userId = button.getAttribute("btn-refuse-friend")
-            //console.log(userId)
-            socket.emit("CLIENT_REFUSE_FRIEND",userId)
-        })
+        refuseFriend(button)
     })
 }
 // End Refuse request add friend
 // Accept request add friend
+const acceptFriend = (button)=>{
+    button.addEventListener("click",()=>{
+        button.closest(".box-user").classList.add("accepted")
+
+        const userId = button.getAttribute("btn-accept-friend")
+        
+        socket.emit("CLIENT_ACCEPT_FRIEND",userId)
+    })
+}
 const listBtnAcceptFriend = document.querySelectorAll("[btn-accept-friend]")
 if(listBtnAcceptFriend.length>0){
     listBtnAcceptFriend.forEach(button=>{
-        button.addEventListener("click",()=>{
-            button.closest(".box-user").classList.add("accepted")
-
-            const userId = button.getAttribute("btn-accept-friend")
-            //console.log(userId)
-            socket.emit("CLIENT_ACCEPT_FRIEND",userId)
-        })
+        acceptFriend(button)
     })
 }
 // End Accept request add friend
@@ -63,10 +69,53 @@ if(badgeUserAccept){
     const userId = badgeUserAccept.getAttribute("badge-users-accept")
     socket.on("SERVER_RETURN_LENGTH_ACCEPT_FRIEND",(data)=>{
         
-        console.log(userId)
+        //console.log(data.lengthAcceptFriends)
         if(userId == data.userId){
             badgeUserAccept.innerHTML = data.lengthAcceptFriends
         }
     })
 }
 // END SERVER RETURN LENGTH ACCEPT FRIEND
+// SERVER_RETURN_INFO_ACCEPT_FRIEND
+const dataUserAccept = document.querySelector("[data-users-accept]")
+if(dataUserAccept){
+    const userId = dataUserAccept.getAttribute("data-users-accept")
+    socket.on("SERVER_RETURN_INFO_ACCEPT_FRIEND",(data)=>{
+        if(userId === data.userId){
+            // Draw user UI
+            const div = document.createElement("div")
+            div.classList.add("col-6")
+            div.innerHTML=
+            `
+             <div class="box-user">
+                <div class="inner-avatar">
+                    <img src="/images/avatar.jpg" alt=${data.infoUserA.fullName}>
+                </div>
+                <div class="inner-info">
+                    <div class="inner-name">${data.infoUserA.fullName}</div>
+                    <div class="inner-button">
+                        <button class="btn btn-sm btn-primary mr-1" btn-accept-friend=${data.infoUserA._id}>Accept</button>
+                        <button class="btn btn-sm btn-secondary mr-1" btn-refuse-friend=${data.infoUserA._id}>Refuse</button>
+                        <button class="btn btn-sm btn-secondary mr-1" btn-deleted-friend=${data.infoUserA._id} disable="">Deleted</button>
+                        <button class="btn btn-sm btn-secondary mr-1" btn-accepted-friend=${data.infoUserA._id} disable="">Accepted</button>
+                    </div>
+                </div>
+             </div>
+            
+            `
+
+            dataUserAccept.appendChild(div)
+            // End Draw user UI
+
+            // Refuse request
+            const buttonRefuse =div.querySelector("[btn-refuse-friend]")
+            refuseFriend(buttonRefuse)
+            // End Refuse request 
+            //  Accept Request
+            const buttonAccept =div.querySelector("[btn-accept-friend]")
+            acceptFriend(buttonAccept)
+            // End Accept Request
+        }
+    })
+}
+// END SERVER_RETURN_INFO_ACCEPT_FRIEND
