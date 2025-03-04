@@ -77,10 +77,13 @@ if(badgeUserAccept){
 }
 // END SERVER RETURN LENGTH ACCEPT FRIEND
 // SERVER_RETURN_INFO_ACCEPT_FRIEND
+socket.on("SERVER_RETURN_INFO_ACCEPT_FRIEND",(data)=>{
 const dataUserAccept = document.querySelector("[data-users-accept]")
+// Accept Page
 if(dataUserAccept){
     const userId = dataUserAccept.getAttribute("data-users-accept")
-    socket.on("SERVER_RETURN_INFO_ACCEPT_FRIEND",(data)=>{
+   
+        
         if(userId === data.userId){
             // Draw user UI
             const div = document.createElement("div")
@@ -116,9 +119,21 @@ if(dataUserAccept){
             const buttonAccept =div.querySelector("[btn-accept-friend]")
             acceptFriend(buttonAccept)
             // End Accept Request
+
         }
-    })
-}
+    }
+    // Not Friend Page
+    const dataUsersNotFriend = document.querySelector("[data-users-not-friend]")
+    if(dataUsersNotFriend){
+        const userId= dataUsersNotFriend.getAttribute("data-users-not-friend")
+        if(userId==data.userId){
+            const boxUserRemove = dataUsersNotFriend.querySelector(`[user-id='${data.infoUserA._id}']`)
+            if(boxUserRemove){
+                dataUsersNotFriend.removeChild(boxUserRemove)
+            }
+        }
+    }
+})
 // END SERVER_RETURN_INFO_ACCEPT_FRIEND
 
 // SERVER_RETURN_USER_ID_CANCEL_FRIEND
