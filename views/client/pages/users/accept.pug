@@ -35,5 +35,10 @@ block main
                                     btn-deleted-friend=user.id
                                     disable
                                 ) Deleted
+                                button(
+                                    class="btn btn-sm btn-secondary mr-1"
+                                    btn-accepted-friend=user.id
+                                    disable
+                                ) Accepted
 block script 
     script(src="/js/users.js")
