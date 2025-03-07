@@ -1,5 +1,5 @@
 const User = require("../../models/user.model")
-
+const RoomChat = require("../../models/rooms-chat.model")
 module.exports = async (res)=>{
     
     _io.once('connection',(socket)=>{
@@ -8,9 +8,11 @@ module.exports = async (res)=>{
         socket.on("CLIENT_ADD_FRIEND", async (userId)=>{
 
             const myUserId = res.locals.user.id
-            //console.log(userId)
+           
+            
             // Add A into accept friends of B
 
+    
             const existAinB= await User.findOne({
                 _id: userId,
                 acceptFriends: myUserId
@@ -152,13 +154,39 @@ module.exports = async (res)=>{
         socket.on("CLIENT_ACCEPT_FRIEND", async (userId)=>{
 
             const myUserId = res.locals.user.id
-            
-            // Delete A in accept friends of B
-            // Add A in friendlist of B
+             //Check exist
             const existAinB= await User.findOne({
                 _id: myUserId,
                 acceptFriends: userId
             })
+            const existBinA= await User.findOne({
+                _id: userId,
+                requestFriends: myUserId
+            })
+            //End check exits
+            //Create RoomChat
+            let roomChat
+            if(existAinB && existBinA){
+            const dataRoom={
+                typeRoom:"friend",
+                users:[
+                    {
+                        user_id:userId,
+                        role:"superAdmin"
+                    },
+                    {
+                        user_id:myUserId,
+                        role:"superAdmin"
+                    }
+                ]
+            }
+            roomChat = new RoomChat(dataRoom)
+            await roomChat.save()
+        }
+        //End create room chat
+            // Delete A in accept friends of B
+            // Add A in friendlist of B
+           
 
             if(existAinB){
                 await User.updateOne({
@@ -167,7 +195,7 @@ module.exports = async (res)=>{
                     $push:{
                         friendList:[{
                             user_id:userId,
-                            room_chat_id:""
+                            room_chat_id:roomChat
                             }]
                     },
                     $pull: {acceptFriends: userId}
@@ -176,10 +204,7 @@ module.exports = async (res)=>{
 
             // Delete B in request friends of A
             // Add B in friendlist of A
-            const existBinA= await User.findOne({
-                _id: userId,
-                requestFriends: myUserId
-            })
+          
 
             if(existBinA){
                 await User.updateOne({
@@ -188,7 +213,7 @@ module.exports = async (res)=>{
                     $push:{
                         friendList:[{
                             user_id:myUserId,
-                            room_chat_id:""
+                            room_chat_id:roomChat
                             }]
                     },
                     $pull: {requestFriends: myUserId}
