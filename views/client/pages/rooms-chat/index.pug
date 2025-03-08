@@ -1,0 +1,31 @@
+extends ../../layoyts/default.pug
+include ../../mixins/box-head.pug
+
+block main 
+    .container.my-3 
+        .row 
+            .col-12 
+                +box-head("List room")
+        
+        .row.mb-3 
+            .col-12 
+                a(
+                    href="/rooms-chat/create"
+                    class="btn btn-sm btn-success"
+                ) Create room chat
+        
+        .row 
+            .col-6 
+                div(class="box-room")
+                    div(class="inner-avatar")
+                        img(
+                            src="https://www.thespruce.com/thmb/iMt63n8NGCojUETr6-T8oj-5-ns=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/PAinteriors-7-cafe9c2bd6be4823b9345e591e4f367f.jpg"
+                            alt= "room"
+                        )
+                    div(class="inner-info")
+                        div(class="inner-name") Room abc 
+                        div(class="inner-buttons")
+                            a(
+                                href="#"
+                                class="btn btn-sm btn-primary mr-1"
+                            ) Chat

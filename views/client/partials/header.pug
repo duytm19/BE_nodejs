@@ -38,10 +38,12 @@ header.header
 
                         li
                             a(href=`/cart`) Cart (#{miniCart ? miniCart.totalQuantity : 0})
-                        li
-                            a(class="btn btn-outline-secondary" href= `/users/friends`) Friends
-
+                       
                         if(user)
+                            li
+                                a(class="btn btn-outline-secondary" href= `/users/friends`) Friends
+                            li 
+                                a(class="btn btn-outline-success" href=`/rooms-chat`) Room chat
                             li
                                 a(class="btn btn-outline-info" href= `/user/info`) #{user.fullName}
                             li
