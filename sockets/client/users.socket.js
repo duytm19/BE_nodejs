@@ -195,7 +195,7 @@ module.exports = async (res)=>{
                     $push:{
                         friendList:[{
                             user_id:userId,
-                            room_chat_id:roomChat
+                            room_chat_id:roomChat.id
                             }]
                     },
                     $pull: {acceptFriends: userId}
@@ -213,7 +213,7 @@ module.exports = async (res)=>{
                     $push:{
                         friendList:[{
                             user_id:myUserId,
-                            room_chat_id:roomChat
+                            room_chat_id:roomChat.id
                             }]
                     },
                     $pull: {requestFriends: myUserId}

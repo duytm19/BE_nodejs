@@ -2,7 +2,8 @@ const Chat = require('../../models/chat.model')
 const uploadToCloudinaryHelper = require("../../helpers/uploadToCloudinary")
 
 module.exports = async(req,res)=>{
-    const userId = res.locals.user.id  
+    const userId = res.locals.user.id 
+ 
     const fullName = res.locals.user.fullName
 
     const roomChatId=req.params.roomChatId
